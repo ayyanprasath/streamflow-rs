@@ -1,0 +1,80 @@
+[package]
+name = "enterprise-data-processor"
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.70"
+authors = ["Your Organization <engineering@yourcompany.com>"]
+license = "MIT OR Apache-2.0"
+description = "Enterprise-grade data processing library with advanced features"
+repository = "https://github.com/yourorg/enterprise-data-processor"
+documentation = "https://docs.rs/enterprise-data-processor"
+readme = "README.md"
+keywords = ["data-processing", "enterprise", "async", "streaming", "etl"]
+categories = ["data-structures", "asynchronous", "database"]
+
+[dependencies]
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+async-trait = "0.1"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Error handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# Metrics and observability
+metrics = "0.21"
+metrics-exporter-prometheus = "0.13"
+
+# Data validation
+validator = { version = "0.16", features = ["derive"] }
+
+# Date/time handling
+chrono = { version = "0.4", features = ["serde"] }
+
+# Utilities
+uuid = { version = "1.6", features = ["v4", "serde"] }
+dashmap = "5.5"
+parking_lot = "0.12"
+
+# Configuration
+config = "0.13"
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+proptest = "1.4"
+mockall = "0.12"
+tokio-test = "0.4"
+wiremock = "0.5"
+tempfile = "3.8"
+
+[features]
+default = ["full"]
+full = ["compression", "encryption", "cloud"]
+compression = []
+encryption = []
+cloud = []
+
+[[bench]]
+name = "processing"
+harness = false
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+
+[profile.bench]
+inherits = "release"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
